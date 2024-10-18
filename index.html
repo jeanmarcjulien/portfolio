@@ -1,1 +1,74 @@
-test
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Translation Tooltip with Audio</title>
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            font-weight: bold;
+            color: red;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Audio Source -->
+    <audio controls>
+        <source src="creole.m4a">
+        Your browser does not support the audio element.
+    </audio>
+
+    <p>
+        Nous sommes le mercredi 16 octobre 2024. <span class="tooltip" data-translation="Welcome">Bienvenue</span> pour ce <span class="tooltip" data-translation="New Episode">nouvel épisode</span> de notre émission hebdomadaire de News in Slow French pour débutants. Je m'appelle Hélène et c’est moi qui présente l’émission aujourd’hui.
+    </p>
+
+    <script>
+        document.querySelectorAll('.tooltip').forEach(word => {
+            word.addEventListener('click', function() {
+                const tooltip = document.createElement('span');
+                tooltip.classList.add('tooltiptext');
+                tooltip.textContent = this.getAttribute('data-translation');
+                if (!this.querySelector('.tooltiptext')) {
+                    this.appendChild(tooltip);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
